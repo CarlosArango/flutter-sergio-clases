@@ -8,10 +8,11 @@ final class LoginState extends Equatable {
     this.isValid = false,
   });
 
-  final FormzSubmissionStatus status;
-  final UsernameFormModel username;
-  final PasswordFormModel password;
-  final bool isValid;
+  final FormzSubmissionStatus
+      status; // message about the transaction, failuire or success
+  final UsernameFormModel username; // change the value
+  final PasswordFormModel password; // change the value
+  final bool isValid; // valid if the fields are completed
 
   LoginState copyWith({
     FormzSubmissionStatus? status,

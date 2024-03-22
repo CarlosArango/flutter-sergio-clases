@@ -12,7 +12,11 @@ class AuthenticationRepository {
       ),
     );
 
-    //throw "Error";
+    throw "Error";
     return UserModel.empty;
+  }
+
+  Future<bool> logOut() async {
+    return true;
   }
 }
