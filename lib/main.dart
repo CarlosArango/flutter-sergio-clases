@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_improves/authentication/children/login/presentation/page/login_page.dart';
-import 'package:flutter_application_improves/authentication/children/login/presentation/widgets/login_form.dart';
+// import 'package:flutter_application_improves/authentication/children/login/presentation/page/login_page.dart';
+import 'package:flutter_application_improves/home/presentation/page/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -88,7 +88,8 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: const LoginPage(),
+      // body: const LoginPage(),
+      body: const HomePage(),
       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
