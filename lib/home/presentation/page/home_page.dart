@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
+import 'package:flutter_application_improves/home/presentation/widgets/tabs_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -10,9 +10,39 @@ class HomePage extends StatelessWidget {
     return const Scaffold(
       appBar: null,
       body: Column(
+        children: [HomePageHeaderWidget(), HomePageBodyWidget()],
+      ),
+    );
+  }
+}
+
+class ListViewNumbers extends StatelessWidget {
+  const ListViewNumbers({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<int> numbers = List.generate(100, (index) => index + 1);
+
+    return Expanded(
+      child: Column(
         children: [
-          HomePageHeaderWidget(),
-          HomePageBodyWidget(),
+          Expanded(
+            child: ListView.builder(
+              itemCount: numbers.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(
+                    '${numbers[index]}',
+                    style: const TextStyle(fontSize: 18.0),
+                  ),
+                  onTap: () {
+                    // Acción cuando se selecciona un número en la lista
+                    print('Número seleccionado: ${numbers[index]}');
+                  },
+                );
+              },
+            ),
+          )
         ],
       ),
     );
@@ -86,15 +116,27 @@ class _HomePageBodyWidgetState extends State<HomePageBodyWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CustomTabWidget(
-          options: _options,
-          selectedIndex: _selectedIndex,
-          onTabChanged: indexState,
-        ),
-        // CardListWidget(),
-      ],
+    return Flexible(
+      child: Column(
+        children: [
+          TabsWidget(
+            onCallBackTabValue: (String value) {
+              ScaffoldMessenger.of(context).clearSnackBars();
+              final snackBar = SnackBar(
+                content: Text(value),
+                action: SnackBarAction(
+                  label: 'Undo',
+                  onPressed: () {
+                    // Some code to undo the change.
+                  },
+                ),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            },
+          ),
+          const CardListWidget(),
+        ],
+      ),
     );
   }
 }
@@ -167,10 +209,10 @@ class CardListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<CharacterCardItem> mockItemList = [
-      // CharacterCardItem(
-      //     imageUrl: 'url1', description: 'Description 1', comicsAmmount: '25'),
-      // CharacterCardItem(
-      //     imageUrl: 'url2', description: 'Description 2', comicsAmmount: '32'),
+      CharacterCardItem(
+          imageUrl: 'url1', description: 'Description 1', comicsAmmount: '25'),
+      CharacterCardItem(
+          imageUrl: 'url2', description: 'Description 2', comicsAmmount: '32'),
       // CharacterCardItem(
       //     imageUrl: 'url3', description: 'Description 3', comicsAmmount: '55'),
       // CharacterCardItem(
@@ -179,31 +221,22 @@ class CardListWidget extends StatelessWidget {
       //     imageUrl: 'url5', description: 'Description 5', comicsAmmount: '652'),
     ];
     return Expanded(
-      child: ListView.builder(
-        itemCount: (mockItemList.length / 2).ceil(),
+      child: GridView.builder(
+        scrollDirection: Axis.vertical,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // number of items in each row
+          mainAxisSpacing: 8.0, // spacing between rows
+          crossAxisSpacing: 8.0, // spacing between columns
+        ),
+        itemCount: mockItemList.length,
         itemBuilder: ((context, index) {
-          return Row(
-            children: [
-              Flexible(
-                  fit: FlexFit.loose,
-                  child: CharacterCardWidget(
-                    imageUrl: mockItemList[index * 2].imageUrl,
-                    description: mockItemList[index * 2].description,
-                    comicsAmmount: mockItemList[index * 2].comicsAmmount,
-                  )),
-              const SizedBox(width: 8),
-              Flexible(
-                fit: FlexFit.loose,
-                child: index * 2 + 1 < mockItemList.length
-                    ? CharacterCardWidget(
-                        imageUrl: mockItemList[index * 2 + 1].imageUrl,
-                        description: mockItemList[index * 2 + 1].description,
-                        comicsAmmount:
-                            mockItemList[index * 2 + 1].comicsAmmount,
-                      )
-                    : const SizedBox(),
-              ),
-            ],
+          return Flexible(
+            fit: FlexFit.loose,
+            child: CharacterCardWidget(
+              imageUrl: mockItemList[index].imageUrl,
+              description: mockItemList[index].description,
+              comicsAmmount: mockItemList[index].comicsAmmount,
+            ),
           );
         }),
       ),
@@ -227,8 +260,14 @@ class CharacterCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
+      color: Colors.black,
       shape: RoundedRectangleBorder(
+        side: const BorderSide(color: Colors.black, width: 1),
         borderRadius: BorderRadius.circular(15.0),
+      ),
+      child: SizedBox(
+        height: 20,
+        width: 7000,
       ),
     );
   }
