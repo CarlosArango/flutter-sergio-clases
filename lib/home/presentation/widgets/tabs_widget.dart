@@ -56,7 +56,7 @@ class _TabBarLettersState extends State<_TabBarLetters>
       ),
       indicator: const UnderlineTabIndicator(
         borderSide: BorderSide(
-          width: 3.0,
+          width: 5.0,
           color: Color(0xFFFF4B3A),
         ),
         borderRadius: BorderRadius.all(
